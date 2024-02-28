@@ -18,11 +18,11 @@ This is done in ReadPatientDWIData_voxelwise(PatientNum, ROInameRequirements, Ro
 - This is code that will read in a specific patient's CSV file, get the ROIs types of interest, and all of the diffusion decay signal from those ROIs. 
 - e.g. For case P001, wanting a left kidney, all poles, medulla (LK_LP_M), and you know there are two of them per pole (e.g. LK_LP_M1 & LK_LP_M2) you could run: 
 
->> medulregL = regexp(RoiTypes, '^L.*.M$','match'); medulregL = medulregL(~cellfun('isempty',medulregL));
->> ReadPatientDWIData_voxelwise(PatientNum, medulregL, 12) 
+  >> medulregL = regexp(RoiTypes, '^L.*.M$','match'); medulregL = medulregL(~cellfun('isempty',medulregL));
+  >> ReadPatientDWIData_voxelwise(PatientNum, medulregL, 12) 
 
 - If you're just looking at a lesion, it will be much simpler. Can likely just edit it to read in whatever the lesion ROI is labelled as in the CSV files: 
->> ReadPatientDWIData_voxelwise(PatientNum, 'lesionROIname') 
+  >> ReadPatientDWIData_voxelwise(PatientNum, 'lesionROIname') 
 
 - It will then read in all of the decay data for the ROIs that you requested (so for lesionROIname, if there are 100 voxels in the lesion ROI it will read in all 100 diffusion decay signals
 - It will export them as an array. So for 9bvalues 100 voxels, it will export a 9x100 array for post-processing
@@ -40,7 +40,7 @@ This is done with RunandSaveIVIM(PatientNum, ROItype, signalcurves)
 
 
 # Run one case
->> RigidBiexp_Anatomic_voxelwise('P001')
+  >> RigidBiexp_Anatomic_voxelwise('P001')
 - see RunAllKidneyProcessing.m for an example of just running all of them at once and leaving it on in the background once it's all set up!
 
 
