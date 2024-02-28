@@ -1,3 +1,6 @@
+%% Given an array of all the signal decay curves from a certain ROI, post-process with bi-exponential IVIM and export. 
+% ML 2023
+
 function RunandSaveIVIM(PatientNum, ROItype,SignalInput)
 
 %% saving and running on signal input
@@ -62,40 +65,9 @@ function RunandSaveIVIM(PatientNum, ROItype,SignalInput)
                         mean(fvalues), median(fvalues), std(fvalues), kurtosis(fvalues), skewness(fvalues),...
                         mean(ADCvalues), median(ADCvalues), std(ADCvalues), kurtosis(ADCvalues), skewness(ADCvalues)};
                 
-    %{
-    %pathtodata = '/Users/miraliu/Desktop/Data/PartialNephrectomy_fit_IVIM';
-    %ExcelFileName=[pathtodata, '/','PN_IVIM_fit.xlsx']; % All results will save in excel file
-
-    % voxel wise kidney baseline
-    %pathtodata = '/Users/miraliu/Desktop/Data/ML_PartialNephrectomy_Export';
-    %ExcelFileName=[pathtodata, '/','PN_IVIM_RigidBiexponential.xlsx']; % All results will save in excel file
-
-    % interobserver
-    pathtodata = '/Users/miraliu/Desktop/Data/Arthi Test ROIs';
-    ExcelFileName=[pathtodata, '/','PN_Arthi_IVIM_RigidBiexponential.xlsx']; % All results will save in excel file
-
-
-    %Patient ID	ROI Type	mean	stdev	median	skew	kurtosis	size n
-
-    Identifying_Info = {['PN_' PatientNum], [PatientNum '_' ROItype]};
-    Existing_Data = readcell(ExcelFileName,'Range','A:B','Sheet','Voxelwise'); %read only identifying info that already exists
-    MatchFunc = @(A,B)cellfun(@isequal,A,B);
-    idx = cellfun(@(Existing_Data)all(MatchFunc(Identifying_Info,Existing_Data)),num2cell(Existing_Data,2));
-
-    if sum(idx)==0
-        disp('saving data in excel')
-        Export_Cell = [Identifying_Info,dataarray];
-        writecell(Export_Cell,ExcelFileName,'WriteMode','append','Sheet','Voxelwise')
-    end
-
-
-    %}
-
-    % for test-retest
-    disp('saving test-retest')
-    pathtodata = '/Users/miraliu/Desktop/Data/PartialNephrectomy_TestRetest/';
-    ExcelFileName=[pathtodata, '/','PN_TestRetesting.xlsx']; % All results will save in excel file
-
+    
+    pathtodata = '/Users/miraliu/Desktop/Data/PartialNephrectomy_fit_IVIM';
+    ExcelFileName=[pathtodata, '/','PN_IVIM_fit.xlsx']; % All results will save in excel file
 
     %Patient ID	ROI Type	mean	stdev	median	skew	kurtosis	size n
 

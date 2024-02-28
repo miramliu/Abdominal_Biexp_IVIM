@@ -1,11 +1,7 @@
-% use this to test:
+%% bayesian estimation of a bi-expomential IVIM curve 
+% Adapted from original code by OB 2021 
+% ML 2023
 
-% b = [0 10 20 50 80 100 250 500 1000];
-% signal = 100*(0.15*exp(-b*0.2) + 0.85*exp(-b*0.001));
-% data = signal + 2*randn(size(b));
-% [MMSE,MAP,curveFit,logPr,logLh,logPost] = IVIMBayesianEstimation(b,data);
-% data = signal + 15*randn(size(b));
-% [MMSE,MAP,curveFit,logPr,logLh,logPost] = IVIMBayesianEstimation(b,data);
 
 function [MMSE,MAP,curveFit,logPr,logLh,Post,logD,logDs,f,data,rsq,IVIM_data] = IVIMBayesianEstimation(b,data,organ,patientID,display,weight)
 
@@ -43,7 +39,7 @@ logDgrid = 120; logD = linspace(-10,-4,logDgrid);
 logDsgrid = 120; logDs = linspace(-7,0,logDsgrid);
 fGrid = 60; f = linspace(0,1,fGrid);
 
-% log-priors
+% log-priors, note difference between liver and kidney. 
 if strcmp(organ,'kidney')
     logDmean = -6.2;
     logDstd = 1;
@@ -121,13 +117,11 @@ if display==1
     subplot(3,2,5); plot(f,sum(sum(Post,2),3)); xlabel('f'); ylabel('pdf')
     subplot(3,2,6); contour(logDs,logD,squeeze(sum(Post,1)),100); xlabel('log D*'); ylabel('log D'); title('joint pdf')
     %savefig(g1,['/Users/octaviabane/Dropbox/MATLAB/RenalTx/RenalTX_IVIM/' patientID '.fig'], 'compact');
-%     savefig(['/Users/octaviabane/Dropbox/MATLAB/Diffusion/RenalTX_IVIM/' char(patientID) '.fig'], 'compact');
-     
+
                   
     g2=figure(2); 
     plot(b, data1, 'o', b, curveFit, 'r'); xlabel('bval'); ylabel('Signal');
     %savefig(g2,['/Users/octaviabane/Dropbox/MATLAB/RenalTx/RenalTX_IVIM/' patientID '_full_signal.fig'], 'compact');
 
-%     savefig([char(patientID) '_full_signal.fig']);
 
 end    

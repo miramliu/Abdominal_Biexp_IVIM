@@ -1,11 +1,11 @@
-%% gave up because matlab is being dumb and randomly reading in some columns as cells. 
+%% code to force matlab to read every line correctly 
+% It's a bit time intensive and line-by-line because matlab would sometimes randomly reading
+% in some columns as cells. Sorry.
 
-% this is to do ivim without  needing xml. just reading from excel 
-%based off of wha was done for R2*
+% this is to do ivim without needing xml file. just reading from excel 
 
 % mira sept 2023
 
-% also done for arthi interobserver analysis
 function AllVoxelsDecay_total = ReadPatientDWIData_voxelwise(varargin)
 
     if nargin == 2
@@ -25,26 +25,13 @@ function AllVoxelsDecay_total = ReadPatientDWIData_voxelwise(varargin)
     end
 
 
-    %{
+    
     % for original baseline
     %pathtodata = '/Users/miraliu/Desktop/Data/ML_PartialNephrectomy_Export/';
     %pathtoCSV = [pathtodata '/' PatientNum '/' PatientNum '_Scan1.csv'];
 
-    % for interobserver
-    pathtodata = '/Users/miraliu/Desktop/Data/Arthi Test ROIs/';
-    pathtoCSV = [pathtodata PatientNum '_Arthi_IVIM.csv'];
     
-    %}
-
-
-    disp('for test-retest')
-    %for test-retest
-    pathtodata = '/Users/miraliu/Desktop/Data/PartialNephrectomy_TestRetest/';
-    pathtoCSV = [pathtodata '/P011_IVIM_Scan1_retest.csv']
-
-
-    
-        %% for each type, this is Poles
+%% for each type, this is kidney Poles
     count = 0;
     for type = 1:size(ROItypes,2)
         ROItype = string(PatientNum) + '_' + string(ROItypes{1,type});
@@ -53,8 +40,8 @@ function AllVoxelsDecay_total = ReadPatientDWIData_voxelwise(varargin)
         ROITypeTable = DataFrame(startsWith(DataFrame.RoiName, ROItype),:);
         %size(ROITypeTable)
         %% for ecah of the slices of these poles
-        %average all four ROIs for analysis (CHECK IF I SHOULD DO THIS)
-        for k = a:b %for each of the 4 ROIs of every type (%%CHECK!!!!!!)
+        %average all four ROIs for analysis 
+        for k = a:b %for each of the 4 ROIs of every type 
             ROITypeTablesub = ROITypeTable(strcmp(ROITypeTable.RoiName, ROItype + string(k)),:); %so for example you want LK_LP_C, will check LK_LP_C1, LK_LP_C2 etc.
             ROITypeTablesub = sortrows(ROITypeTablesub,'Dynamic'); %order them according to dynamic, and get the mean from that
             %SignalInput =  SignalInput + ROITypeTablesub.RoiMean;
@@ -62,7 +49,7 @@ function AllVoxelsDecay_total = ReadPatientDWIData_voxelwise(varargin)
             AllVoxelsDecay = ROITypeTablesub(1:end,13:end);
             AllVoxelsDecay = rmmissing(AllVoxelsDecay,2);
 
-            % really shit because matlab does not read this correctly. will
+            % really frustrating  matlab does not read this correctly. will
             % slow down a lot just because matlab performs poorly. 
             myvarnames = AllVoxelsDecay.Properties.VariableNames;
             for ii = 1:size(myvarnames,2)

@@ -1,6 +1,6 @@
 %% get bi-exponential fit of ivim from anatomic kidneys
 
-%now voxelwise
+% now voxelwise
 % Mira sept 2023
 function RigidBiexp_Anatomic_voxelwise(varargin)
     PatientNum = varargin{1};
