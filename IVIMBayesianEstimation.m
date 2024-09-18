@@ -34,6 +34,8 @@ weight = weight(:);
 ln_S=log(data);
 p = polyfit(b, ln_S, 1);
 ADC = -(p(1));
+
+
 % range for the parameters
 logDgrid = 120; logD = linspace(-10,-4,logDgrid);
 logDsgrid = 120; logDs = linspace(-7,0,logDsgrid);
